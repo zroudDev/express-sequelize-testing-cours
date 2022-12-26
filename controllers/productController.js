@@ -4,13 +4,23 @@ const  Product =require('../models').Product
 const  User =require('../models').User
  
 exports.getAll=(req,res)=>{
-    Product.findAll(({include: [Profil,User]}))
+    Product.findAll({include: [{
+        model: Profil,
+        include: [{
+          model: User
+        }]
+      }]})
     .then(response=>res.status(200).send(response))
     .catch(response=>res.status(500).send(response))
 }
 
 exports.getProductById=(req,res)=>{
-    Product.findOne({where:{id:req.params.id}, include: Profil})
+    Product.findOne({where:{id:req.params.id}, include: [{
+        model: Profil,
+        include: [{
+          model: User
+        }]
+      }]})
     .then(response=>res.status(200).send(response))
     .catch(response=>res.status(500).send(response))
 }
